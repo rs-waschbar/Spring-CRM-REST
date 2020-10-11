@@ -3,10 +3,7 @@ package com.springrest.demo.rest;
 import com.springrest.demo.entity.Customer;
 import com.springrest.demo.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,8 +24,37 @@ public class CustomerRestController {
         Customer customer = customerService.getCustomer(customerId);
 
         if (customer == null) {
-            throw new CustomerNotFoundException("Customer id is not found" + customerId);
+            throw new CustomerNotFoundException("Customer id is not found: " + customerId);
         }
         return customer;
+    }
+
+    // remind note: get Customer from JSON with @RequestBody
+    // set ID 0 because of saveOrUpdate method
+    @PostMapping("/customers")
+    public Customer addCustomer(@RequestBody Customer customer) {
+        customer.setId(0);
+        customerService.saveCustomer(customer);
+
+        return customer;
+    }
+
+    @PutMapping("/customers")
+    public Customer updateCustomer(@RequestBody Customer customer) {
+        customerService.saveCustomer(customer);
+
+        return customer;
+    }
+
+    @DeleteMapping("/customers/{customerId}")
+    public String deleteCustomer(@PathVariable int customerId) {
+        Customer customer = customerService.getCustomer(customerId);
+
+        if (customer == null) {
+            throw new CustomerNotFoundException("Customer id is not found: " + customerId);
+        }
+        customerService.deleteCustomer(customerId);
+
+        return "Customer id: " + customerId + " - successful deleted";
     }
 }
