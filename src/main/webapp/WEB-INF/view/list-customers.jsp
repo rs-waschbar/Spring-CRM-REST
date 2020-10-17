@@ -3,46 +3,54 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet"
+		  href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+		  integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+		  crossorigin="anonymous">
+
 	<title>List Customers</title>
 	
-	<link type="text/css"
-		  	rel="stylesheet"
-		  	href="${pageContext.request.contextPath}/resources/css/style.css" />
+<%--	<link type="text/css"--%>
+<%--		  	rel="stylesheet"--%>
+<%--		  	href="${pageContext.request.contextPath}/resources/css/style.css" />--%>
 </head>
 
 <body>
 
-	<div id="wrapper">
-		<div id="header">
+	<div class="container">
+		<p>
 			<h2>CRM - Customer Relationship Manager</h2>
-		</div>
-	</div>
+		</p>
 
-	<div id="container">
-		<div id="content">
-		
+		<p>
 			<input type="button" value="Add Customer" 
 				onclick="window.location.href='showFormForAdd'; return false;"
-				class="add-button" 
+				class="btn btn-primary btn-small mb-3"
 			/>
-			
+
 			<form:form action="search" method="GET">
                 Search customer: <input type="text" name="theSearchName" />
-                
                 <input type="submit" value="Search" class="add-button" />
             </form:form>
-			
-			<table>
+		</p>
+			<table class="table table-bordered table-striped">
+				<thead class="thead-dark">
 				<tr>
 					<th>First Name</th>
 					<th>Last Name</th>
 					<th>Email</th>
 					<th>Action</th>
 				</tr>
-				
+				</thead>
+				<tbody>
 				<c:forEach var="tempCustomer" items="${customers}">
 				
 					<c:url var="updateLink" value="/customer/showFormForUpdate">
@@ -66,10 +74,9 @@
 					</tr>
 					
 				</c:forEach>
-				
+				</tbody>
 			</table>
-			
-		</div>
+
 	</div>
 
 </body>
